@@ -1,13 +1,13 @@
 #!/bin/bash
 #
 
-# Initialisation de la variables designant l'interface reseau
+#Initialisation de la variables designant l'interface reseau
 export IF_RESEAU="wlan0"
 
-# On efface toutes les regles existantes
+#On efface toutes les regles existantes
 sudo iptables -F
 
-# On supprime d'eventuelles regles personnelles
+#On supprime d'eventuelles regles personnelles
 sudo iptables -X
 sudo iptables -t nat -F
 sudo iptables -t nat -X
@@ -19,22 +19,22 @@ sudo iptables -t mangle -X
 sudo iptables -t mangle -P PREROUTING ACCEPT
 sudo iptables -t mangle -P OUTPUT ACCEPT
 
-# Mise en place des regles par defaut (on refuse tout par default)
+#Mise en place des regles par defaut (on refuse tout par default)
 sudo iptables -P INPUT DROP
 sudo iptables -P FORWARD DROP
 sudo iptables -P OUTPUT DROP
 
-# On accepte les connexions sur la boucle locale (sur lo == 127.0.0.1 modifié si sa change)
+#On accepte les connexions sur la boucle locale (sur lo == 127.0.0.1 modifié si sa change)
 sudo iptables -A INPUT -i lo -j ACCEPT
 sudo iptables -A OUTPUT -o lo -j ACCEPT
 
-# On accepte les connexions depuis le LAN (192.168.0 & 192.168.1 modifié si sa change)
+#On accepte les connexions depuis le LAN (192.168.0 & 192.168.1 modifié si sa change)
 sudo iptables -A INPUT -s 192.168.0.0/24 -j ACCEPT
 sudo iptables -A OUTPUT -d 192.168.0.0/24 -j ACCEPT
 sudo iptables -A INPUT -s 192.168.1.0/24 -j ACCEPT
 sudo iptables -A OUTPUT -d 192.168.1.0/24 -j ACCEPT
 
-# On refuse certaines requetes 
+#On refuse certaines requetes 
 sudo iptables -N SCANS
 sudo iptables -A SCANS -p tcp --tcp-flags FIN,URG,PSH FIN,URG,PSH -j DROP
 sudo iptables -A SCANS -p tcp --tcp-flags ALL ALL -j DROP
@@ -43,22 +43,22 @@ sudo iptables -A SCANS -p tcp --tcp-flags SYN,RST SYN,RST -j DROP
 sudo iptables -A INPUT -p udp --dport 33434:33523 -j DROP
 sudo iptables -A OUTPUT -p tcp --dport telnet -j DROP
 
-# Rejet des paquets bizarres ou mal formés
+#Rejet des paquets bizarres ou mal formés
 sudo iptables -A INPUT -m state --state INVALID -j DROP
 sudo iptables -A FORWARD -m state --state INVALID -j DROP
 
 
-# On autorise les connexion sur les port pour odoo
+#On autorise les connexion sur les port pour odoo
 sudo iptables -A INPUT -p tcp -m tcp --sport 8069 -j ACCEPT
 sudo iptables -A OUTPUT -p tcp -m tcp --dport 8069 -j ACCEPT
 
-# On autorise les connexion sur les port pour le serveur mail
-sudo iptables -A INPUT -p tcp -m tcp --sport 8069 -j ACCEPT
-sudo iptables -A OUTPUT -p tcp -m tcp --dport 8069 -j ACCEPT
+#On autorise les connexion sur les port pour le serveur mail
+#sudo iptables -A INPUT -p tcp -m tcp --sport 8069 -j ACCEPT
+#sudo iptables -A OUTPUT -p tcp -m tcp --dport 8069 -j ACCEPT
 
-# On autorise les connexion sur les port pour nextclood
-sudo iptables -A INPUT -p tcp -m tcp --sport 8069 -j ACCEPT
-sudo iptables -A OUTPUT -p tcp -m tcp --dport 8069 -j ACCEPT
+#On autorise les connexion sur les port pour nextclood
+#sudo iptables -A INPUT -p tcp -m tcp --sport 8069 -j ACCEPT
+#sudo iptables -A OUTPUT -p tcp -m tcp --dport 8069 -j ACCEPT
 
 
 
