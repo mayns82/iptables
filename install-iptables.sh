@@ -48,17 +48,23 @@ sudo iptables -A INPUT -m state --state INVALID -j DROP
 sudo iptables -A FORWARD -m state --state INVALID -j DROP
 
 
+
 #On autorise les connexion sur les port pour odoo
 sudo iptables -A INPUT -p tcp -m tcp --sport 8069 -j ACCEPT
 sudo iptables -A OUTPUT -p tcp -m tcp --dport 8069 -j ACCEPT
 
 #On autorise les connexion sur les port pour le serveur mail
-#sudo iptables -A INPUT -p tcp -m tcp --sport 8069 -j ACCEPT
-#sudo iptables -A OUTPUT -p tcp -m tcp --dport 8069 -j ACCEPT
+#sudo iptables -A INPUT -p tcp -m tcp --sport 8070 -j ACCEPT
+#sudo iptables -A OUTPUT -p tcp -m tcp --dport 8070 -j ACCEPT
 
 #On autorise les connexion sur les port pour nextclood
-#sudo iptables -A INPUT -p tcp -m tcp --sport 8069 -j ACCEPT
-#sudo iptables -A OUTPUT -p tcp -m tcp --dport 8069 -j ACCEPT
+#sudo iptables -A INPUT -p tcp -m tcp --sport 8071 -j ACCEPT
+#sudo iptables -A OUTPUT -p tcp -m tcp --dport 8071 -j ACCEPT
+
+#On autorise les connexion sur les port pour ClamAV
+#sudo iptables -A INPUT -p tcp -m tcp --sport 8072 -j ACCEPT
+#sudo iptables -A OUTPUT -p tcp -m tcp --dport 8072 -j ACCEPT
+
 
 
 
